@@ -57,7 +57,7 @@ function RootComponent() {
           }
         `}} />
       </head>
-      <body className="flex min-h-full bg-white dark:bg-slate-900 font-sans">
+      <body className="flex min-h-full bg-zinc-50 dark:bg-black font-sans">
         <Providers>
           <Layout>
             <Outlet />

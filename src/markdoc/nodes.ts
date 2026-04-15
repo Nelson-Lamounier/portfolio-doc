@@ -12,7 +12,10 @@ import { Fence } from '@/components/Fence'
  * A new counter is seeded for each document transform to ensure
  * heading IDs are unique within their document scope.
  */
-const documentSlugifyMap = new Map<Config, ReturnType<typeof slugifyWithCounter>>()
+const documentSlugifyMap = new Map<
+  Config,
+  ReturnType<typeof slugifyWithCounter>
+>()
 
 /* Markdoc's Schema.render is typed as `string` but accepts React components at runtime. */
 type LooseSchema = Omit<Schema, 'render'> & { render?: unknown }
@@ -35,7 +38,9 @@ const nodes = {
       return new Tag(
         DocsLayout as unknown as string,
         {
-          frontmatter: yaml.load(node.attributes.frontmatter as string) as Record<string, unknown>,
+          frontmatter: yaml.load(
+            node.attributes.frontmatter as string,
+          ) as Record<string, unknown>,
           nodes: node.children,
         },
         node.transformChildren(config),
@@ -54,7 +59,10 @@ const nodes = {
      */
     transform(node: Node, config: Config) {
       const slugify = documentSlugifyMap.get(config)
-      const attributes = node.transformAttributes(config) as Record<string, unknown>
+      const attributes = node.transformAttributes(config) as Record<
+        string,
+        unknown
+      >
       const children = node.transformChildren(config)
       const text = children
         .filter((child): child is string => typeof child === 'string')

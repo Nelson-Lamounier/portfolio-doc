@@ -50,8 +50,33 @@ export const Route = createFileRoute('/docs/$id')({
 /** Renders the pre-transformed Markdoc tree returned by the route loader. */
 function DocPageComponent() {
   const { rawMarkdown } = Route.useLoaderData()
-  const ast = Markdoc.parse(rawMarkdown)
-  const transformed = Markdoc.transform(ast, markdocConfig)
-  const content = Markdoc.renderers.react(transformed, React)
-  return <>{content}</>
+
+  if (!rawMarkdown) {
+    return (
+      <div className="flex h-full items-center justify-center pt-32">
+        <h1 className="text-2xl font-bold text-zinc-800 dark:text-zinc-200">
+          Page not found
+        </h1>
+      </div>
+    )
+  }
+
+  try {
+    const ast = Markdoc.parse(rawMarkdown)
+    const transformed = Markdoc.transform(ast, markdocConfig)
+    const content = Markdoc.renderers.react(transformed, React)
+    return <>{content}</>
+  } catch (error) {
+    console.error('Error parsing markdown:', error)
+    return (
+      <div className="flex h-full items-center justify-center pt-32">
+        <h1 className="text-2xl font-bold text-zinc-800 dark:text-zinc-200">
+          Error loading page
+        </h1>
+        <p className="mt-2 text-zinc-600 dark:text-zinc-400">
+          {error instanceof Error ? error.message : 'Unknown error'}
+        </p>
+      </div>
+    )
+  }
 }

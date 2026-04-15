@@ -29,3 +29,7 @@ yarn-error.log*
 
 # typescript
 *.tsbuildinfo
+
+# wiki: generated at build time from S3 / local wiki
+scripts/wiki-manifest.json
+src/docs/*/page.md
