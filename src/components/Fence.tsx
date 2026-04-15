@@ -1,17 +1,22 @@
 import { Fragment } from 'react'
 import { Highlight } from 'prism-react-renderer'
+import { MermaidDiagram } from '@/components/MermaidDiagram'
 
 export function Fence({
   children,
   language,
 }: {
   children: string
-  language: string
+  language?: string
 }) {
+  if (language === 'mermaid') {
+    return <MermaidDiagram code={children.trim()} />
+  }
+
   return (
     <Highlight
       code={children.trimEnd()}
-      language={language}
+      language={language || 'text'}
       theme={{ plain: {}, styles: [] }}
     >
       {({ className, style, tokens, getTokenProps }) => (

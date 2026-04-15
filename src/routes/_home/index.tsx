@@ -48,7 +48,7 @@ function IndexPageComponent() {
   if (!rawMarkdown) {
     return (
       <div className="flex h-full items-center justify-center pt-32">
-        <h1 className="text-2xl font-bold text-slate-800 dark:text-slate-200">
+        <h1 className="text-2xl font-bold text-zinc-800 dark:text-zinc-200">
           Page not found
         </h1>
       </div>

@@ -33,7 +33,7 @@ function TrafficLightsIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
 
 export function Hero() {
   return (
-    <div className="overflow-hidden bg-slate-900 dark:-mt-19 dark:-mb-32 dark:pt-19 dark:pb-32">
+    <div className="overflow-hidden bg-black">
       <div className="py-16 sm:px-2 lg:relative lg:px-0 lg:py-20">
         <div className="mx-auto grid max-w-2xl grid-cols-1 items-center gap-x-8 gap-y-16 px-4 lg:max-w-8xl lg:grid-cols-2 lg:px-8 xl:gap-x-16 xl:px-12">
           <div className="relative z-10 md:text-center lg:text-left">
@@ -45,10 +45,10 @@ export function Hero() {
               height={530}
             />
             <div className="relative">
-              <p className="inline bg-linear-to-r from-indigo-200 via-sky-400 to-indigo-200 bg-clip-text font-display text-5xl tracking-tight text-transparent">
+              <p className="inline bg-linear-to-r from-indigo-200 via-teal-400 to-indigo-200 bg-clip-text font-display text-5xl tracking-tight text-transparent">
                 Never miss the cache again.
               </p>
-              <p className="mt-3 text-2xl tracking-tight text-slate-400">
+              <p className="mt-3 text-2xl tracking-tight text-zinc-400">
                 Cache every single thing your app could ever do ahead of time,
                 so your code never even has to run at all.
               </p>
@@ -79,13 +79,13 @@ export function Hero() {
                 width={567}
                 height={567}
               />
-              <div className="absolute inset-0 rounded-2xl bg-linear-to-tr from-sky-300 via-sky-300/70 to-blue-300 opacity-10 blur-lg" />
-              <div className="absolute inset-0 rounded-2xl bg-linear-to-tr from-sky-300 via-sky-300/70 to-blue-300 opacity-10" />
+              <div className="absolute inset-0 rounded-2xl bg-linear-to-tr from-teal-300 via-teal-300/70 to-blue-300 opacity-10 blur-lg" />
+              <div className="absolute inset-0 rounded-2xl bg-linear-to-tr from-teal-300 via-teal-300/70 to-blue-300 opacity-10" />
               <div className="relative rounded-2xl bg-[#0A101F]/80 ring-1 ring-white/10 backdrop-blur-sm">
-                <div className="absolute -top-px right-11 left-20 h-px bg-linear-to-r from-sky-300/0 via-sky-300/70 to-sky-300/0" />
+                <div className="absolute -top-px right-11 left-20 h-px bg-linear-to-r from-teal-300/0 via-teal-300/70 to-teal-300/0" />
                 <div className="absolute right-20 -bottom-px left-11 h-px bg-linear-to-r from-blue-400/0 via-blue-400 to-blue-400/0" />
                 <div className="pt-4 pl-4">
-                  <TrafficLightsIcon className="h-2.5 w-auto stroke-slate-500/30" />
+                  <TrafficLightsIcon className="h-2.5 w-auto stroke-zinc-500/30" />
                   <div className="mt-4 flex space-x-2 text-xs">
                     {tabs.map((tab) => (
                       <div
@@ -93,14 +93,14 @@ export function Hero() {
                         className={clsx(
                           'flex h-6 rounded-full',
                           tab.isActive
-                            ? 'bg-linear-to-r from-sky-400/30 via-sky-400 to-sky-400/30 p-px font-medium text-sky-300'
-                            : 'text-slate-500',
+                            ? 'bg-linear-to-r from-teal-400/30 via-teal-400 to-teal-400/30 p-px font-medium text-teal-300'
+                            : 'text-zinc-500',
                         )}
                       >
                         <div
                           className={clsx(
                             'flex items-center rounded-full px-2.5',
-                            tab.isActive && 'bg-slate-800',
+                            tab.isActive && 'bg-zinc-800',
                           )}
                         >
                           {tab.name}
@@ -111,7 +111,7 @@ export function Hero() {
                   <div className="mt-6 flex items-start px-1 text-sm">
                     <div
                       aria-hidden="true"
-                      className="border-r border-slate-300/5 pr-4 font-mono text-slate-600 select-none"
+                      className="border-r border-zinc-300/5 pr-4 font-mono text-zinc-600 select-none"
                     >
                       {Array.from({
                         length: code.split('\n').length,

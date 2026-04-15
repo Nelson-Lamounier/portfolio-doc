@@ -9,7 +9,13 @@ export function TableOfContents({
 }: {
   tableOfContents: Array<Section>
 }) {
-  let [currentSection, setCurrentSection] = useState(tableOfContents[0]?.id)
+  let [currentSection, setCurrentSection] = useState<string | undefined>(
+    tableOfContents[0]?.id,
+  )
+
+  useEffect(() => {
+    setCurrentSection(tableOfContents[0]?.id)
+  }, [tableOfContents])
 
   let getHeadings = useCallback((tableOfContents: Array<Section>) => {
     return tableOfContents
@@ -61,13 +67,13 @@ export function TableOfContents({
   }
 
   return (
-    <div className="hidden xl:sticky xl:top-[4.75rem] xl:-mr-6 xl:block xl:h-[calc(100vh-4.75rem)] xl:flex-none xl:overflow-y-auto xl:py-16 xl:pr-6">
+    <div className="hidden lg:sticky lg:top-[4.75rem] lg:-mr-6 lg:block lg:h-[calc(100vh-4.75rem)] lg:w-64 lg:flex-none lg:overflow-y-auto lg:py-16 lg:pr-6">
       <nav aria-labelledby="on-this-page-title" className="w-56">
         {tableOfContents.length > 0 && (
           <>
             <h2
               id="on-this-page-title"
-              className="font-display text-sm font-medium text-slate-900 dark:text-white"
+              className="font-display text-sm font-medium text-zinc-900 dark:text-white"
             >
               On this page
             </h2>
@@ -79,8 +85,8 @@ export function TableOfContents({
                       href={`#${section.id}`}
                       className={clsx(
                         isActive(section)
-                          ? 'text-sky-500'
-                          : 'font-normal text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-300',
+                          ? 'text-teal-500'
+                          : 'font-normal text-zinc-500 hover:text-zinc-700 dark:text-zinc-400 dark:hover:text-zinc-300',
                       )}
                     >
                       {section.title}
@@ -89,7 +95,7 @@ export function TableOfContents({
                   {section.children.length > 0 && (
                     <ol
                       role="list"
-                      className="mt-2 space-y-3 pl-5 text-slate-500 dark:text-slate-400"
+                      className="mt-2 space-y-3 pl-5 text-zinc-500 dark:text-zinc-400"
                     >
                       {section.children.map((subSection) => (
                         <li key={subSection.id}>
@@ -97,8 +103,8 @@ export function TableOfContents({
                             href={`#${subSection.id}`}
                             className={
                               isActive(subSection)
-                                ? 'text-sky-500'
-                                : 'hover:text-slate-600 dark:hover:text-slate-300'
+                                ? 'text-teal-500'
+                                : 'hover:text-zinc-600 dark:hover:text-zinc-300'
                             }
                           >
                             {subSection.title}

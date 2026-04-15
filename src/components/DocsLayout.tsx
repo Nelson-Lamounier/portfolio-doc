@@ -18,7 +18,7 @@ export function DocsLayout({
   let tableOfContents = collectSections(nodes)
 
   return (
-    <>
+    <div className="flex flex-col gap-12 lg:flex-row lg:items-start">
       <div className="max-w-2xl min-w-0 flex-auto px-4 py-16 lg:max-w-none lg:pr-0 lg:pl-8 xl:px-16">
         <article>
           <DocsHeader title={title} />
@@ -27,6 +27,6 @@ export function DocsLayout({
         <PrevNextLinks />
       </div>
       <TableOfContents tableOfContents={tableOfContents} />
-    </>
+    </div>
   )
 }

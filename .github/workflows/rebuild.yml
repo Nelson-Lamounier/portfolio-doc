@@ -1,0 +1,82 @@
+# @description Rebuild portfolio-doc when the knowledge-base wiki is updated.
+#
+# Triggered by:
+#   1. repository_dispatch (type: wiki-updated) — fired by portfolio-research-brain
+#      after every successful S3 sync
+#   2. workflow_dispatch — manual trigger from GitHub UI
+#
+# The prebuild hook (fetch-wiki.mjs + generate-navigation.mjs) pulls the latest
+# wiki pages from S3 automatically before yarn build runs.
+#
+# Prerequisites (GitHub Actions secrets/variables):
+#   - WIKI_S3_BUCKET      GitHub variable  — S3 bucket name (same as in research-brain)
+#   - AWS_OIDC_ROLE       GitHub secret    — OIDC role ARN with s3:GetObject on the bucket
+#   - AWS_REGION          GitHub variable  — defaults to eu-west-1
+
+name: Rebuild — Wiki Updated
+
+on:
+  repository_dispatch:
+    types: [wiki-updated]
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: read
+
+concurrency:
+  group: rebuild-portfolio-doc
+  cancel-in-progress: true # newer wiki push wins
+
+jobs:
+  build:
+    name: Fetch Wiki & Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_OIDC_ROLE }}
+          aws-region: ${{ vars.AWS_REGION || 'eu-west-1' }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: yarn
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Build (prebuild fetches wiki from S3)
+        env:
+          WIKI_S3_BUCKET: ${{ vars.WIKI_S3_BUCKET }}
+        run: yarn build
+
+      # ---------------------------------------------------------------
+      # Add your deploy step here, for example:
+      #
+      # - name: Deploy
+      #   run: ...
+      # ---------------------------------------------------------------
+
+      - name: Summary
+        if: always()
+        env:
+          WIKI_SHA: ${{ github.event.client_payload.sha }}
+          WIKI_BUCKET: ${{ vars.WIKI_S3_BUCKET }}
+          BUILD_SHA: ${{ github.sha }}
+          TRIGGER: ${{ github.event_name }}
+        run: |
+          echo "## Portfolio-doc Rebuild" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| | |" >> $GITHUB_STEP_SUMMARY
+          echo "|---|---|" >> $GITHUB_STEP_SUMMARY
+          echo "| **Trigger** | \`${TRIGGER}\` |" >> $GITHUB_STEP_SUMMARY
+          echo "| **Wiki commit** | \`${WIKI_SHA:-n/a}\` |" >> $GITHUB_STEP_SUMMARY
+          echo "| **S3 bucket** | \`${WIKI_BUCKET}\` |" >> $GITHUB_STEP_SUMMARY
+          echo "| **Build commit** | \`${BUILD_SHA}\` |" >> $GITHUB_STEP_SUMMARY
