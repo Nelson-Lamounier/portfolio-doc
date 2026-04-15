@@ -12,6 +12,17 @@
 /dist/
 /.output/
 
+# TanStack router tmp files
+.tanstack/
+
+# editor
+.vscode/
+.idea/
+
+# Yarn — install-state is optional (regenerated on yarn install)
+.yarn/install-state.gz
+.yarn/cache
+
 # misc
 .DS_Store
 *.pem
@@ -22,7 +33,9 @@ yarn-debug.log*
 yarn-error.log*
 
 # local env files
-.env*.local
+.env
+.env.*
+!.env.example
 
 # vercel
 .vercel
